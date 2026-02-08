@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?</title>
+    <title>Valentine</title>
     <style>
         body {
             display: flex;
@@ -12,78 +12,54 @@
             height: 100vh;
             margin: 0;
             background-color: #ffeef2;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
+            font-family: sans-serif;
+            overflow: hidden; /* Prevents scrolling when button moves */
         }
-
         #container {
             background: white;
-            padding: 50px;
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 400px;
-            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 300px;
         }
-
-        h1 {
-            color: #d63384;
-            font-size: 2rem;
-        }
-
-        .buttons {
+        h1 { color: #d63384; font-size: 1.5rem; }
+        .btn-group {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 15px;
+            margin-top: 20px;
+            height: 50px;
         }
-
         button {
-            padding: 12px 25px;
-            font-size: 1.2rem;
+            padding: 10px 20px;
+            font-size: 1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-
-        #yesBtn {
-            background-color: #ff4d6d;
-            color: white;
-        }
-
-        #noBtn {
-            background-color: #f8f9fa;
-            color: #6c757d;
+        #yesBtn { background: #ff4d6d; color: white; }
+        #noBtn { 
+            background: #f8f9fa; 
+            color: #6c757d; 
             border: 1px solid #dee2e6;
-            position: absolute; /* Needed for movement */
+            position: absolute; /* Vital for movement */
         }
-
-        .hidden {
-            display: none;
-        }
-
-        img {
-            max-width: 200px;
-            border-radius: 15px;
-        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-
     <div id="container">
-        <div id="askSection">
+        <div id="ask">
             <h1>Dear Love, <br> will you be my Valentine? 💕</h1>
-            <p>Choose wisely... (The "No" button is shy)</p>
-            <div class="buttons">
+            <div class="btn-group">
                 <button id="yesBtn">YES</button>
                 <button id="noBtn">NO</button>
             </div>
         </div>
-
-        <div id="successSection" class="hidden">
+        <div id="success" class="hidden">
             <h1 style="color: #ff4d6d;">YAY!!! ❤️</h1>
-            <p>Best decision ever!</p>
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG5vMmd6ZjN6amZ6amZ6amZ6amZ6amZ6amZ6amZ6amZ6amZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/lTQF0ODLLjhza/giphy.gif" alt="Cute hearts">
             <p>I love you!</p>
         </div>
     </div>
@@ -91,23 +67,27 @@
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
-        const askSection = document.getElementById('askSection');
-        const successSection = document.getElementById('successSection');
+        const ask = document.getElementById('ask');
+        const success = document.getElementById('success');
 
-        // Function to move the "No" button
-        noBtn.addEventListener('mouseover', () => {
+        // Moves button on touch for mobile
+        const moveButton = () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        };
+
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Stops the actual click
+            moveButton();
         });
 
-        // Function for the "Yes" button
+        noBtn.addEventListener('mouseover', moveButton);
+
         yesBtn.addEventListener('click', () => {
-            askSection.classList.add('hidden');
-            successSection.classList.remove('hidden');
+            ask.classList.add('hidden');
+            success.classList.remove('hidden');
         });
     </script>
 </body>
